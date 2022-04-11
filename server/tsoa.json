@@ -1,0 +1,34 @@
+{
+  "swagger": {
+    "basePath": "/api/v1",
+    "entryFile": "./src/main.ts",
+    "specVersion": 3,
+    "outputDirectory": "./api/dist",
+    "controllerPathGlobs": [
+      "./src/controllers/**/*controller.ts"
+    ]
+  },
+  "spec": {
+    "securityDefinitions": {
+      "tsoa_auth": {
+          "type": "oauth2",
+          "authorizationUrl": "localhost:9000/oauth/authorizationEndpoint",
+          "flow": "code",
+          "scopes": {
+              "write:company": "modify company",
+              "read:company": "read company",
+              "write:employee": "modify employee",
+              "read:employee": "read employee",
+              "admin": "boss around"
+          }
+      }
+    }
+  },
+  "routes": {
+    "basePath": "/api/v1",
+    "entryFile": "./src/main.ts",
+    "routesDir": "./src/routes",
+    "middleware": "express",
+    "authenticationModule": "./src/auth/authentication.ts"
+  }
+}

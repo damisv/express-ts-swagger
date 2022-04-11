@@ -1,0 +1,805 @@
+{
+	"info": {
+		"_postman_id": "11337fc7-5542-40a7-88b9-e85345f04a1c",
+		"name": "senior_express",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "[COMPANIES] GET_ALL",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateJWT() {",
+							"    var jwtSecret = \"secret\"",
+							"",
+							"    // Set headers for JWT",
+							"    var header = {",
+							"        'typ': 'JWT',",
+							"        'alg': 'HS256'",
+							"    };",
+							"",
+							"    // Prepare timestamp in seconds",
+							"    var currentTimestamp = Math.floor(Date.now() / 1000)",
+							"",
+							"    var data = {",
+							"        'iss': pm.environment.get('jwt_iss') || '',",
+							"        'ist': pm.environment.get('jwt_ist') || '',",
+							"        'iat': currentTimestamp,",
+							"        'exp': currentTimestamp + 30, // expiry time is 30 seconds from time of creation",
+							"        'jti': 'jwt_nonce',",
+							"        'scopes': 'admin'",
+							"    }",
+							"",
+							"    function base64url(source) {",
+							"        // Encode in classical base64",
+							"        encodedSource = CryptoJS.enc.Base64.stringify(source)",
+							"        ",
+							"        // Remove padding equal characters",
+							"        encodedSource = encodedSource.replace(/=+$/, '')",
+							"        ",
+							"        // Replace characters according to base64url specifications",
+							"        encodedSource = encodedSource.replace(/\\+/g, '-')",
+							"        encodedSource = encodedSource.replace(/\\//g, '_')",
+							"        ",
+							"        return encodedSource",
+							"    }",
+							"",
+							"    // encode header",
+							"    var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header))",
+							"    var encodedHeader = base64url(stringifiedHeader)",
+							"",
+							"    // encode data",
+							"    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data))",
+							"    var encodedData = base64url(stringifiedData)",
+							"",
+							"    // build token",
+							"    var token = `${encodedHeader}.${encodedData}`",
+							"",
+							"    // sign token",
+							"    var signature = CryptoJS.HmacSHA256(token, jwtSecret)",
+							"    signature = base64url(signature)",
+							"    return `${token}.${signature}`",
+							"}",
+							"",
+							"pm.request.headers.add({key: 'x-access-token', value: generateJWT()})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/companies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"companies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[COMPANIES] GET_COMPANY",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateJWT() {",
+							"    var jwtSecret = \"secret\"",
+							"",
+							"    // Set headers for JWT",
+							"    var header = {",
+							"        'typ': 'JWT',",
+							"        'alg': 'HS256'",
+							"    };",
+							"",
+							"    // Prepare timestamp in seconds",
+							"    var currentTimestamp = Math.floor(Date.now() / 1000)",
+							"",
+							"    var data = {",
+							"        'iss': pm.environment.get('jwt_iss') || '',",
+							"        'ist': pm.environment.get('jwt_ist') || '',",
+							"        'iat': currentTimestamp,",
+							"        'exp': currentTimestamp + 30, // expiry time is 30 seconds from time of creation",
+							"        'jti': 'jwt_nonce',",
+							"        'scopes': 'admin'",
+							"    }",
+							"",
+							"    function base64url(source) {",
+							"        // Encode in classical base64",
+							"        encodedSource = CryptoJS.enc.Base64.stringify(source)",
+							"        ",
+							"        // Remove padding equal characters",
+							"        encodedSource = encodedSource.replace(/=+$/, '')",
+							"        ",
+							"        // Replace characters according to base64url specifications",
+							"        encodedSource = encodedSource.replace(/\\+/g, '-')",
+							"        encodedSource = encodedSource.replace(/\\//g, '_')",
+							"        ",
+							"        return encodedSource",
+							"    }",
+							"",
+							"    // encode header",
+							"    var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header))",
+							"    var encodedHeader = base64url(stringifiedHeader)",
+							"",
+							"    // encode data",
+							"    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data))",
+							"    var encodedData = base64url(stringifiedData)",
+							"",
+							"    // build token",
+							"    var token = `${encodedHeader}.${encodedData}`",
+							"",
+							"    // sign token",
+							"    var signature = CryptoJS.HmacSHA256(token, jwtSecret)",
+							"    signature = base64url(signature)",
+							"    return `${token}.${signature}`",
+							"}",
+							"",
+							"pm.request.headers.add({key: 'x-access-token', value: generateJWT()})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/companies/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"companies",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[EMPLOYEES] GET_EMPLOYEE",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateJWT() {",
+							"    var jwtSecret = \"secret\"",
+							"",
+							"    // Set headers for JWT",
+							"    var header = {",
+							"        'typ': 'JWT',",
+							"        'alg': 'HS256'",
+							"    };",
+							"",
+							"    // Prepare timestamp in seconds",
+							"    var currentTimestamp = Math.floor(Date.now() / 1000)",
+							"",
+							"    var data = {",
+							"        'iss': pm.environment.get('jwt_iss') || '',",
+							"        'ist': pm.environment.get('jwt_ist') || '',",
+							"        'iat': currentTimestamp,",
+							"        'exp': currentTimestamp + 30, // expiry time is 30 seconds from time of creation",
+							"        'jti': 'jwt_nonce',",
+							"        'scopes': 'admin'",
+							"    }",
+							"",
+							"    function base64url(source) {",
+							"        // Encode in classical base64",
+							"        encodedSource = CryptoJS.enc.Base64.stringify(source)",
+							"        ",
+							"        // Remove padding equal characters",
+							"        encodedSource = encodedSource.replace(/=+$/, '')",
+							"        ",
+							"        // Replace characters according to base64url specifications",
+							"        encodedSource = encodedSource.replace(/\\+/g, '-')",
+							"        encodedSource = encodedSource.replace(/\\//g, '_')",
+							"        ",
+							"        return encodedSource",
+							"    }",
+							"",
+							"    // encode header",
+							"    var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header))",
+							"    var encodedHeader = base64url(stringifiedHeader)",
+							"",
+							"    // encode data",
+							"    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data))",
+							"    var encodedData = base64url(stringifiedData)",
+							"",
+							"    // build token",
+							"    var token = `${encodedHeader}.${encodedData}`",
+							"",
+							"    // sign token",
+							"    var signature = CryptoJS.HmacSHA256(token, jwtSecret)",
+							"    signature = base64url(signature)",
+							"    return `${token}.${signature}`",
+							"}",
+							"",
+							"pm.request.headers.add({key: 'x-access-token', value: generateJWT()})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/employees/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"employees",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[COMPANIES] CREATE_COMPANY",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateJWT() {",
+							"    var jwtSecret = \"secret\"",
+							"",
+							"    // Set headers for JWT",
+							"    var header = {",
+							"        'typ': 'JWT',",
+							"        'alg': 'HS256'",
+							"    };",
+							"",
+							"    // Prepare timestamp in seconds",
+							"    var currentTimestamp = Math.floor(Date.now() / 1000)",
+							"",
+							"    var data = {",
+							"        'iss': pm.environment.get('jwt_iss') || '',",
+							"        'ist': pm.environment.get('jwt_ist') || '',",
+							"        'iat': currentTimestamp,",
+							"        'exp': currentTimestamp + 30, // expiry time is 30 seconds from time of creation",
+							"        'jti': 'jwt_nonce',",
+							"        'scopes': 'admin'",
+							"    }",
+							"",
+							"    function base64url(source) {",
+							"        // Encode in classical base64",
+							"        encodedSource = CryptoJS.enc.Base64.stringify(source)",
+							"        ",
+							"        // Remove padding equal characters",
+							"        encodedSource = encodedSource.replace(/=+$/, '')",
+							"        ",
+							"        // Replace characters according to base64url specifications",
+							"        encodedSource = encodedSource.replace(/\\+/g, '-')",
+							"        encodedSource = encodedSource.replace(/\\//g, '_')",
+							"        ",
+							"        return encodedSource",
+							"    }",
+							"",
+							"    // encode header",
+							"    var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header))",
+							"    var encodedHeader = base64url(stringifiedHeader)",
+							"",
+							"    // encode data",
+							"    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data))",
+							"    var encodedData = base64url(stringifiedData)",
+							"",
+							"    // build token",
+							"    var token = `${encodedHeader}.${encodedData}`",
+							"",
+							"    // sign token",
+							"    var signature = CryptoJS.HmacSHA256(token, jwtSecret)",
+							"    signature = base64url(signature)",
+							"    return `${token}.${signature}`",
+							"}",
+							"",
+							"pm.request.headers.add({key: 'x-access-token', value: generateJWT()})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"FirstCompany\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/companies/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"companies",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[COMPANIES] UPDATE_COMPANY",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateJWT() {",
+							"    var jwtSecret = \"secret\"",
+							"",
+							"    // Set headers for JWT",
+							"    var header = {",
+							"        'typ': 'JWT',",
+							"        'alg': 'HS256'",
+							"    };",
+							"",
+							"    // Prepare timestamp in seconds",
+							"    var currentTimestamp = Math.floor(Date.now() / 1000)",
+							"",
+							"    var data = {",
+							"        'iss': pm.environment.get('jwt_iss') || '',",
+							"        'ist': pm.environment.get('jwt_ist') || '',",
+							"        'iat': currentTimestamp,",
+							"        'exp': currentTimestamp + 30, // expiry time is 30 seconds from time of creation",
+							"        'jti': 'jwt_nonce',",
+							"        'scopes': 'admin'",
+							"    }",
+							"",
+							"    function base64url(source) {",
+							"        // Encode in classical base64",
+							"        encodedSource = CryptoJS.enc.Base64.stringify(source)",
+							"        ",
+							"        // Remove padding equal characters",
+							"        encodedSource = encodedSource.replace(/=+$/, '')",
+							"        ",
+							"        // Replace characters according to base64url specifications",
+							"        encodedSource = encodedSource.replace(/\\+/g, '-')",
+							"        encodedSource = encodedSource.replace(/\\//g, '_')",
+							"        ",
+							"        return encodedSource",
+							"    }",
+							"",
+							"    // encode header",
+							"    var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header))",
+							"    var encodedHeader = base64url(stringifiedHeader)",
+							"",
+							"    // encode data",
+							"    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data))",
+							"    var encodedData = base64url(stringifiedData)",
+							"",
+							"    // build token",
+							"    var token = `${encodedHeader}.${encodedData}`",
+							"",
+							"    // sign token",
+							"    var signature = CryptoJS.HmacSHA256(token, jwtSecret)",
+							"    signature = base64url(signature)",
+							"    return `${token}.${signature}`",
+							"}",
+							"",
+							"pm.request.headers.add({key: 'x-access-token', value: generateJWT()})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"FirstCompany\",\n    \"email\": \"email_changed\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/companies/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"companies",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[EMPLOYEES] UPDATE_EMPLOYEE",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateJWT() {",
+							"    var jwtSecret = \"secret\"",
+							"",
+							"    // Set headers for JWT",
+							"    var header = {",
+							"        'typ': 'JWT',",
+							"        'alg': 'HS256'",
+							"    };",
+							"",
+							"    // Prepare timestamp in seconds",
+							"    var currentTimestamp = Math.floor(Date.now() / 1000)",
+							"",
+							"    var data = {",
+							"        'iss': pm.environment.get('jwt_iss') || '',",
+							"        'ist': pm.environment.get('jwt_ist') || '',",
+							"        'iat': currentTimestamp,",
+							"        'exp': currentTimestamp + 30, // expiry time is 30 seconds from time of creation",
+							"        'jti': 'jwt_nonce',",
+							"        'scopes': 'admin'",
+							"    }",
+							"",
+							"    function base64url(source) {",
+							"        // Encode in classical base64",
+							"        encodedSource = CryptoJS.enc.Base64.stringify(source)",
+							"        ",
+							"        // Remove padding equal characters",
+							"        encodedSource = encodedSource.replace(/=+$/, '')",
+							"        ",
+							"        // Replace characters according to base64url specifications",
+							"        encodedSource = encodedSource.replace(/\\+/g, '-')",
+							"        encodedSource = encodedSource.replace(/\\//g, '_')",
+							"        ",
+							"        return encodedSource",
+							"    }",
+							"",
+							"    // encode header",
+							"    var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header))",
+							"    var encodedHeader = base64url(stringifiedHeader)",
+							"",
+							"    // encode data",
+							"    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data))",
+							"    var encodedData = base64url(stringifiedData)",
+							"",
+							"    // build token",
+							"    var token = `${encodedHeader}.${encodedData}`",
+							"",
+							"    // sign token",
+							"    var signature = CryptoJS.HmacSHA256(token, jwtSecret)",
+							"    signature = base64url(signature)",
+							"    return `${token}.${signature}`",
+							"}",
+							"",
+							"pm.request.headers.add({key: 'x-access-token', value: generateJWT()})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"FirstCompany\",\n    \"email\": \"email_changed\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/employees/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[COMPANIES] DELETE_COMPANY AND EMPLOYEES",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateJWT() {",
+							"    var jwtSecret = \"secret\"",
+							"",
+							"    // Set headers for JWT",
+							"    var header = {",
+							"        'typ': 'JWT',",
+							"        'alg': 'HS256'",
+							"    };",
+							"",
+							"    // Prepare timestamp in seconds",
+							"    var currentTimestamp = Math.floor(Date.now() / 1000)",
+							"",
+							"    var data = {",
+							"        'iss': pm.environment.get('jwt_iss') || '',",
+							"        'ist': pm.environment.get('jwt_ist') || '',",
+							"        'iat': currentTimestamp,",
+							"        'exp': currentTimestamp + 30, // expiry time is 30 seconds from time of creation",
+							"        'jti': 'jwt_nonce',",
+							"        'scopes': 'admin'",
+							"    }",
+							"",
+							"    function base64url(source) {",
+							"        // Encode in classical base64",
+							"        encodedSource = CryptoJS.enc.Base64.stringify(source)",
+							"        ",
+							"        // Remove padding equal characters",
+							"        encodedSource = encodedSource.replace(/=+$/, '')",
+							"        ",
+							"        // Replace characters according to base64url specifications",
+							"        encodedSource = encodedSource.replace(/\\+/g, '-')",
+							"        encodedSource = encodedSource.replace(/\\//g, '_')",
+							"        ",
+							"        return encodedSource",
+							"    }",
+							"",
+							"    // encode header",
+							"    var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header))",
+							"    var encodedHeader = base64url(stringifiedHeader)",
+							"",
+							"    // encode data",
+							"    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data))",
+							"    var encodedData = base64url(stringifiedData)",
+							"",
+							"    // build token",
+							"    var token = `${encodedHeader}.${encodedData}`",
+							"",
+							"    // sign token",
+							"    var signature = CryptoJS.HmacSHA256(token, jwtSecret)",
+							"    signature = base64url(signature)",
+							"    return `${token}.${signature}`",
+							"}",
+							"",
+							"pm.request.headers.add({key: 'x-access-token', value: generateJWT()})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v1/companies/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"companies",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[EMPLOYEES] DELETE_EMPLOYEE",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateJWT() {",
+							"    var jwtSecret = \"secret\"",
+							"",
+							"    // Set headers for JWT",
+							"    var header = {",
+							"        'typ': 'JWT',",
+							"        'alg': 'HS256'",
+							"    };",
+							"",
+							"    // Prepare timestamp in seconds",
+							"    var currentTimestamp = Math.floor(Date.now() / 1000)",
+							"",
+							"    var data = {",
+							"        'iss': pm.environment.get('jwt_iss') || '',",
+							"        'ist': pm.environment.get('jwt_ist') || '',",
+							"        'iat': currentTimestamp,",
+							"        'exp': currentTimestamp + 30, // expiry time is 30 seconds from time of creation",
+							"        'jti': 'jwt_nonce',",
+							"        'scopes': 'admin'",
+							"    }",
+							"",
+							"    function base64url(source) {",
+							"        // Encode in classical base64",
+							"        encodedSource = CryptoJS.enc.Base64.stringify(source)",
+							"        ",
+							"        // Remove padding equal characters",
+							"        encodedSource = encodedSource.replace(/=+$/, '')",
+							"        ",
+							"        // Replace characters according to base64url specifications",
+							"        encodedSource = encodedSource.replace(/\\+/g, '-')",
+							"        encodedSource = encodedSource.replace(/\\//g, '_')",
+							"        ",
+							"        return encodedSource",
+							"    }",
+							"",
+							"    // encode header",
+							"    var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header))",
+							"    var encodedHeader = base64url(stringifiedHeader)",
+							"",
+							"    // encode data",
+							"    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data))",
+							"    var encodedData = base64url(stringifiedData)",
+							"",
+							"    // build token",
+							"    var token = `${encodedHeader}.${encodedData}`",
+							"",
+							"    // sign token",
+							"    var signature = CryptoJS.HmacSHA256(token, jwtSecret)",
+							"    signature = base64url(signature)",
+							"    return `${token}.${signature}`",
+							"}",
+							"",
+							"pm.request.headers.add({key: 'x-access-token', value: generateJWT()})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v1/employees/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"employees",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[EMPLOYEES] CREATE_EMPLOYEE",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateJWT() {",
+							"    var jwtSecret = \"secret\"",
+							"",
+							"    // Set headers for JWT",
+							"    var header = {",
+							"        'typ': 'JWT',",
+							"        'alg': 'HS256'",
+							"    };",
+							"",
+							"    // Prepare timestamp in seconds",
+							"    var currentTimestamp = Math.floor(Date.now() / 1000)",
+							"",
+							"    var data = {",
+							"        'iss': pm.environment.get('jwt_iss') || '',",
+							"        'ist': pm.environment.get('jwt_ist') || '',",
+							"        'iat': currentTimestamp,",
+							"        'exp': currentTimestamp + 30, // expiry time is 30 seconds from time of creation",
+							"        'jti': 'jwt_nonce',",
+							"        'scopes': 'admin'",
+							"    }",
+							"",
+							"    function base64url(source) {",
+							"        // Encode in classical base64",
+							"        encodedSource = CryptoJS.enc.Base64.stringify(source)",
+							"        ",
+							"        // Remove padding equal characters",
+							"        encodedSource = encodedSource.replace(/=+$/, '')",
+							"        ",
+							"        // Replace characters according to base64url specifications",
+							"        encodedSource = encodedSource.replace(/\\+/g, '-')",
+							"        encodedSource = encodedSource.replace(/\\//g, '_')",
+							"        ",
+							"        return encodedSource",
+							"    }",
+							"",
+							"    // encode header",
+							"    var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header))",
+							"    var encodedHeader = base64url(stringifiedHeader)",
+							"",
+							"    // encode data",
+							"    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data))",
+							"    var encodedData = base64url(stringifiedData)",
+							"",
+							"    // build token",
+							"    var token = `${encodedHeader}.${encodedData}`",
+							"",
+							"    // sign token",
+							"    var signature = CryptoJS.HmacSHA256(token, jwtSecret)",
+							"    signature = base64url(signature)",
+							"    return `${token}.${signature}`",
+							"}",
+							"",
+							"pm.request.headers.add({key: 'x-access-token', value: generateJWT()})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"First\",\n    \"last_name\": \"Employee\",\n    \"companyId\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/employees/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"employees",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

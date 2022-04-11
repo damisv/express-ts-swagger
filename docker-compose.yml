@@ -1,0 +1,45 @@
+version: '3.8'
+
+services: 
+  senior-express: 
+    container_name: senior-express
+    image: damian/express-ts
+    build:
+      context: server
+    ports:
+     - "3000:3000"
+    environment:
+    - JWT_SECRET=secret
+    - NODE_ENV=docker
+    - PGUSER=damian
+    - PGPASSWORD=qwerty
+    - PGDATABASE=defaultdb
+    - PGHOST=postgresDB # NAME OF THE SERVICE
+    volumes:
+     - .:/service
+    depends_on: 
+      - postgresDB
+  swagger:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8080:8080"
+    environment:
+      SWAGGER_JSON: /swagger/swagger.json
+    volumes:
+      - type: bind
+        source: ./server/api/dist
+        target: /swagger
+  postgresDB:
+    container_name: postgresDB
+    image: 'postgres:12'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=damian
+      - POSTGRES_PASSWORD=qwerty
+      - POSTGRES_DB=defaultdb
+    volumes:
+      - pgdata1:/var/lib/postgresql/data
+
+volumes:
+  pgdata1: {}
