@@ -1,6 +1,5 @@
 import * as express from "express";
 import * as jwt from "jsonwebtoken";
-import { decode } from "punycode";
 
 export function expressAuthentication(request: express.Request, security: string, scopes: string[] = []): Promise<any> {
     return new Promise((resolve, reject) => {
